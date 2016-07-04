@@ -18,7 +18,7 @@
         <div class="col-md-6 col-md-offset-3">
             <header><h3>Waht other people say...</h3></header>
             @foreach($posts as $post)
-            <article class="post">
+            <article class="post" data-postid="{{ $post->id }}">
                 <p>{{ $post->body }}</p>
                 <div class="info">
                     Posted by {{ $post->user->first_name }} on {{ $post->created_at }}
@@ -28,7 +28,7 @@
                     <a href="#">Dislike</a>
                     @if(Auth::user() == $post->user)
                         |
-                    <a href="#">Edit</a> |
+                    <a href="#" class="edit">Edit</a> |
                     <a href="{{ route('post.delete', ['post_id' => $post->id]) }}">Delete</a>
                     @endif
                 </div>
@@ -48,15 +48,20 @@
                     <form action="">
                         <div class="form-group">
                             <label>Edit the Post</label>
-                            <textarea name="post-body" class="form-control" rows="5"></textarea>
+                            <textarea name="post-body" id="post-body" class="form-control" rows="5"></textarea>
                         </div>
+                        <input type="">
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary modal-save" >Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <script>
+        var token = '{{ Session::token() }}';
+        var url = '{{ route('edit') }}';
+    </script>
 @endsection
